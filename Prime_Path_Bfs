@@ -1,0 +1,121 @@
+#include<bits/stdc++.h>
+using namespace std;
+ 
+#define ff              first
+#define ss              second
+#define pb              push_back
+#define mp              make_pair
+#define pii             pair<int,int>
+#define vi              vector<int>
+#define mii             map<int,int>
+#define pqb             priority_queue<int>
+#define pqs             priority_queue<int,vi,greater<int> >
+#define setbits(x)      __builtin_popcountll(x)
+#define zrobits(x)      __builtin_ctzll(x)
+#define mod             1000000007
+#define inf             1e18
+#define int             int
+#define ps(x,y)         fixed<<setprecision(y)<<x
+#define mk(arr,n,type)  type *arr=new type[n];
+//#define w(x)            int x; cin>>x; while(x--)
+mt19937                 rng(chrono::steady_clock::now().time_since_epoch().count());
+
+const int MAXN = 1e5+1;
+vector <int> adj[MAXN];
+vector <int> vis(MAXN);
+vector <int> h;
+int len,node;
+void c_p_c()
+{
+    ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+#ifndef ONLINE_JUDGE
+    freopen("input.txt", "r", stdin);
+    freopen("output.txt", "w", stdout);
+#endif
+}
+
+int32_t main()
+{
+ c_p_c();
+ 
+ vector <int> sieve(MAXN+1,0);
+  for(int i=2;i*i<=MAXN;i++)
+  {
+    if(sieve[i] == 0)
+    {
+      for(int j=i*i;j<=MAXN;j+=i)
+      {
+        sieve[j] = 1;
+      }
+    }
+  }
+
+ int tc;
+ cin >> tc;
+ while(tc--)
+ {
+  string a,b;
+  cin >> a >> b;
+  int n = a.size();
+  queue <string> q;
+  q.push(a);
+    vector <int> vis(MAXN,0);
+  int c = 0,flag = 0;
+  while(!q.empty())
+  {
+      if(flag)
+      {
+          break;
+      }
+    int k = q.size();
+    c++;
+    while(k--)
+    {
+      string f = q.front();
+      q.pop();
+        int num = stoi(f);
+      vis[num] = 1;
+      //cout<<f<<endl;
+      if(f == b)
+      {
+        flag = 1;
+        break;
+      }
+      string p = f;
+      if(p[0] != b[0])
+      {
+        for(char i = '1';i<='9';i++)
+        {
+          p = f;
+          p[0] = i;
+          int num = stoi(p);
+          if(sieve[num] == 0 && vis[num] == 0)
+          {
+           q.push(p);
+          }
+        } 
+      }
+      
+      for(int i=1;i<n;i++)
+      {
+          if(p[i] == b[i])
+          {
+              continue;
+          }
+        for(char j = '0';j<='9';j++)
+        {
+          p = f;
+          p[i] = j;
+          int num = stoi(p);
+          if(sieve[num] == 0 && vis[num] == 0)
+          {
+           q.push(p);
+          }
+        } 
+      }
+    }
+  }
+  cout<<c-1<<endl;
+  }
+ return 0;  
+}
